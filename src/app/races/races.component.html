@@ -1,8 +1,9 @@
 <!--
 Ajoutez au composant un champ races, qui sera un tableau représentant la liste de courses.
--->
 
-<h2 *ngFor="let race of races">
+Utilisez un pipe dans le template races.component.html pour afficher seulement 4 courses.
+-->
+<h2 *ngFor="let race of races | slice : 0 : 4">
     {{ race.name }}
 </h2>
 

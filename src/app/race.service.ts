@@ -6,14 +6,19 @@ import { RaceModel } from './models/race.model';
 })
 export class RaceService {
 /*
-* Ce service devra avoir une méthode nommée list() qui renverra la liste de 2 courses que nous avions définie précédemment.
+* Ce service devra avoir une méthode nommée list()
+* qui renverra la liste de 2 courses que nous
+* avions définie précédemment.
 * */
   constructor() { }
 
   list(): Array<RaceModel> {
     return [
-            { name: 'Lyon' },
-            { name: 'London' }
-           ];
+      {name: 'Lyon'},
+      {name: 'Los Angeles'},
+      {name: 'Sydney'},
+      {name: 'Tokyo'},
+      {name: 'Casablanca'}
+    ];
   }
 }

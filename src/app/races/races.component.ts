@@ -14,7 +14,9 @@ export class RacesComponent implements OnInit {
   constructor(private raceService: RaceService ) { }
 
   ngOnInit(): void {
-// Injectez ce service dans notre composant RacesComponent, et initialisez la liste des courses avec ce que renvoie la méthode list() du service.
+// Injectez ce service dans notre composant RacesComponent,
+// et initialisez la liste des courses avec ce que renvoie
+// la méthode list() du service.
     this.races = this.raceService.list();
   }
 
