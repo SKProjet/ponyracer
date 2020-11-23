@@ -1,1 +1,1 @@
-[]
+[{"endPosition":{"character":145,"line":16,"position":511},"failure":"Exceeds maximum line length of 140","name":"C:/Users/skumarasamy/Desktop/formation/ponyracer/src/app/races/races.component.ts","ruleName":"max-line-length","ruleSeverity":"error","startPosition":{"character":0,"line":16,"position":366}}]
