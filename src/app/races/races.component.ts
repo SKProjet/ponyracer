@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { RaceService } from '../race.service';
+import { RaceModel } from '../models/race.model';
 
 @Component({
   selector: 'pr-races',
@@ -9,15 +9,14 @@ import { RaceService } from '../race.service';
 })
 export class RacesComponent implements OnInit {
 
-  races: Array<any>;
+  // races: Array<any>;
+  races: Array<RaceModel> = [];
 
   constructor(private raceService: RaceService ) { }
 
   ngOnInit(): void {
-// Injectez ce service dans notre composant RacesComponent,
-// et initialisez la liste des courses avec ce que renvoie
-// la méthode list() du service.
-    this.races = this.raceService.list();
+    // https://angular-exercises.ninja-squad.com/faq#subscribe
+    this.raceService.list().subscribe(races => this.races = races);
   }
 
 }

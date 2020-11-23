@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { RaceModel } from './models/race.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RaceService {
-/*
-* Ce service devra avoir une méthode nommée list()
-* qui renverra la liste de 2 courses que nous
-* avions définie précédemment.
-* */
-  constructor() { }
+// Transformons donc le service
+// pour lui faire retourner un Observable.
+// renvoyer la liste des courses, enveloppée dans un Observable avec la fonction of
 
+  constructor() { }
+  /*
+  => à transformer en fonction observable
   list(): Array<RaceModel> {
     return [
       {name: 'Lyon'},
@@ -21,4 +23,17 @@ export class RaceService {
       {name: 'Casablanca'}
     ];
   }
+  */
+  list(): Observable<Array<RaceModel>> {
+    return of([
+      {name: 'Lyon'},
+      {name: 'Los Angeles'},
+      {name: 'Sydney'},
+      {name: 'Tokyo'},
+      {name: 'Casablanca'}
+    ])
+      .pipe(delay(500));
+  }
+
+
 }
