@@ -12,7 +12,7 @@ export class MenuComponent implements OnInit {
 
   navbarCollapsed = true;
   toggleNavbar(): void {
-    this.navbarCollapsed =!this.navbarCollapsed;
+    this.navbarCollapsed = !this.navbarCollapsed;
   }
 
   constructor() { }
