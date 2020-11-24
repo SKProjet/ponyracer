@@ -1,8 +1,25 @@
-<h2> {{ raceModel.name }} </h2>
+<h2>
+  {{ raceModel.name }}
+</h2>
+<!--
+Ajoutez la date transformée avec le pipe
+dans le template race.component.html,
+juste en dessous du nom dans une balise p
+
+exploité dans les données d’une course : celle de sa date de départ
+-->
+
+<p>
+  {{ raceModel.startInstant | fromNow }}
+</p>
+
 <ul>
  <li *ngFor="let pony of raceModel.ponies">
    {{pony.name}}
-   <pr-pony [ponyModel]="pony"></pr-pony>
+
+   <pr-pony [ponyModel]="pony">
+   </pr-pony>
+
  </li>
 </ul>
 

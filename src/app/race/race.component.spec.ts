@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { formatDistanceToNowStrict, parseISO } from 'date-fns';
 
 import { RaceComponent } from './race.component';
 import { PonyComponent } from '../pony/pony.component';
+import { FromNowPipe } from '../from-now.pipe';
 
 describe('RaceComponent', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      declarations: [RaceComponent, PonyComponent]
+      declarations: [RaceComponent, PonyComponent, FromNowPipe]
     })
   );
 
@@ -40,5 +42,10 @@ describe('RaceComponent', () => {
     const directives = fixture.debugElement.queryAll(By.directive(PonyComponent));
     expect(directives).withContext('You should use the PonyComponent in your template to display the ponies').not.toBeNull();
     expect(directives.length).withContext('You should have five pony components in your template').toBe(5);
+    const startInstant = element.querySelector('p');
+    expect(startInstant).withContext('You should use a `p` element to display the start instant').not.toBeNull();
+    expect(startInstant.textContent)
+      .withContext('You should use the `fromNow` pipe you created to format the start instant')
+      .toBe(formatDistanceToNowStrict(parseISO(raceComponent.raceModel.startInstant), { addSuffix: true }));
   });
 });

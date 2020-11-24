@@ -1,1 +1,1 @@
-{"pack":"46","id":8,"title":"HTTP","specs":[{"name":"src/app/app.component.spec.ts","hash":"d2965bbff57f823ba47f4591fdc516fa52c122e2"},{"name":"src/app/race.service.spec.ts","hash":"a20625913df09b8453e5576011dbb52be57394d5"}]}
+{"pack":"46","id":9,"title":"Custom pipe with date-fns","specs":[{"name":"src/app/app.component.spec.ts","hash":"e469f14aedfc25d1da300699368dd7491b2679a2"},{"name":"src/app/from-now.pipe.spec.ts","hash":"0c61c13bb195051ca3844e4728398442cb1dd838"},{"name":"src/app/race/race.component.spec.ts","hash":"54d7feeec6e6e80e6ee81fe0b8f7921e4e309594"}]}
