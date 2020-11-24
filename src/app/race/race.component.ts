@@ -8,11 +8,6 @@ import { RaceModel } from '../models/race.model';
 })
 export class RaceComponent implements OnInit {
 
-  /*
-  * avoir une entrée (@Input()) nommée raceModel
-  * N’oubliez pas d’importer Input depuis @angular/core
-  * */
-
   @Input() raceModel: RaceModel;
 
   constructor() { }

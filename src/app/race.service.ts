@@ -9,7 +9,6 @@ import { RaceModel } from './models/race.model';
 export class RaceService {
 
   constructor() { }
-/* Modifier la méthode list() du service RaceService */
 
   list(): Observable<Array<RaceModel>> {
     return of([
