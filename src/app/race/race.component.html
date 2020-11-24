@@ -1,0 +1,13 @@
+<!--
+Il devra afficher le titre de la course dans un h2,
+ainsi que la liste des noms des poneys participant à celle-ci,
+dans une liste à puces <ul><li>…​)
+-->
+
+<h2> {{ raceModel.name }} </h2>
+<ul>
+ <li *ngFor="let pony of raceModel.ponies">
+   {{pony.name}}
+ </li>
+</ul>
+

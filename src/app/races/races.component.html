@@ -1,5 +1,5 @@
 <h2 *ngFor="let race of races | slice : 0 : 4">
-    {{ race.name }}
+    <pr-race [raceModel]="race"></pr-race>
 </h2>
 
 
