@@ -18,7 +18,9 @@ export class UserService {
     const params = { login, password, birthYear };
     return this.http.post<UserModel>(this.apiUrl, params);
   }
-
+  /*
+  * une méthode authenticate(credentials: {login: string; password: string})
+  * */
     authenticate(credentials: {login: string; password: string}): Observable<UserModel> {
     return this.http.post<UserModel>(this.apiUrlAuth, credentials);
   }
