@@ -10,13 +10,15 @@ import { environment } from '../environments/environment';
 })
 export class RaceService {
 
-  private apiUrl = environment.apiUrl + 'races';
+  // suite à la modif de l'environnement.ts changement pour baseURL
+  // private apiUrl = environment.apiUrl + 'races';
+  private baseUrl = environment.baseUrl + 'api/races';
 
   constructor(private http: HttpClient) { }
 
   list(): Observable<Array<RaceModel>> {
     const params = { status: 'PENDING' };
-    return this.http.get<Array<RaceModel>>(this.apiUrl, { params });
+    return this.http.get<Array<RaceModel>>(this.baseUrl, { params });
   }
 
 }
