@@ -27,7 +27,7 @@ import { LoginComponent } from './login/login.component';
     RegisterComponent,
     LoginComponent
   ],
-  imports: [BrowserModule, HttpClientModule, ReactiveFormsModule, FormsModule,  RouterModule.forRoot(ROUTES)],
+  imports: [BrowserModule, HttpClientModule, ReactiveFormsModule, FormsModule, RouterModule.forRoot(ROUTES)],
   providers: [],
   bootstrap: [AppComponent]
 })

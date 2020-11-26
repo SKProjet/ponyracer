@@ -1,21 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable} from 'rxjs';
 import { UserModel } from './models/user.model';
 import { environment } from '../environments/environment';
 import {tap} from 'rxjs/operators';
-
-/*
-UserService soit en charge d’exposer
-un Subject nommé userEvents.
-méthode next() pour émettre un événement.
-
-  Pour faire ceci,
- chaînez un appel à l’opérateur tap,
- qui permet d’effectuer une action sans
- modifier l’événement renvoyé (comme le fait map).
-
-*/
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +12,14 @@ export class UserService {
 
   private apiUrl = environment.apiUrl + 'users';
   private apiUrlAuth = environment.apiUrl + 'users/authentication';
-  userEvents = new Subject<UserModel>();
+  userEvents = new BehaviorSubject<UserModel>(undefined);
+  /*
+  Remplacez donc le Subject par un BehaviorSubject
+  Le constructeur attend une valeur initiale :
+  vous pouvez utiliser undefined.
+  * */
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {  }
 
   register(login: string, password: string, birthYear: number): Observable<UserModel> {
     const params = {login, password, birthYear};

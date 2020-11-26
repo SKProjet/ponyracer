@@ -12,20 +12,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService) {
   }
 
-
   navbarCollapsed = true;
-
-  /*
-  *
-  * Dans le composant MenuComponent,
-  * injectez le UserService.
-  * Puis abonnez-vous à l’observable userEvents
-  * exposé par celui-ci. Le meilleur endroit pour faire ceci
-  * est dans la méthode ngOnInit. Lorsqu’un utilisateur
-  * sera reçu, stockez-le dans une variable
-  * locale au composant, nommée user.
-  * */
-
   user: UserModel;
   userEventsSubscription: Subscription;
 
