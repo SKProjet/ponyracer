@@ -8,15 +8,9 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-/*
-* UserService, qui aura une méthode
-* register(login, password, birthYear),
-* qui attend trois paramètres:
-* le login,
-* le mot de passe
-* et l’année de naissance.
-* */
+
   private apiUrl = environment.apiUrl + 'users';
+  private apiUrlAuth = environment.apiUrl + 'users/authentication';
 
   constructor(private http: HttpClient) {}
 
@@ -25,4 +19,7 @@ export class UserService {
     return this.http.post<UserModel>(this.apiUrl, params);
   }
 
+    authenticate(credentials: {login: string; password: string}): Observable<UserModel> {
+    return this.http.post<UserModel>(this.apiUrlAuth, credentials);
+  }
 }

@@ -1,23 +1,3 @@
-<!--
-Le champ login devrait être sur 3 caractères minimum.
-Une div avec un id 'login-length-error' devra afficher
-le message "Your login should be at least 3 characters"
-si le login n’a pas la longueur suffisante (erreur minlength)
-et si l’utilisateur a commencé à entrer une valeur dans le champ.
-
-Pour le champ password, on voudrait une validation un peu plus avancée.
-Créez un autre champ FormControl nommé confirmPasswordCtrl dans le composant,
-ainsi qu’un autre FormGroup nommé passwordForm. passwordForm doit avoir deux champs:
-password and confirmPassword, chacun pointant vers le FormControl associé.
-Ajoutez ce groupe au userForm à la place du champ password.
-Un message d’erreur contenant "Confirming password is required"
-devra être affiché si confirmPassword est dirty et a l’erreur required.
-
-autre FormGroup nommé passwordForm.
-passwordForm doit avoir deux champs: password and confirmPassword,
-chacun pointant vers le FormControl associé
--->
-
 <h1>Sign up</h1>
 <form (ngSubmit)="register()" [formGroup]="userForm">
   <div class="form-group">
@@ -40,9 +20,6 @@ chacun pointant vers le FormControl associé
       <div *ngIf="passwordForm.dirty && passwordForm.hasError('matchingError')" id="password-matching-error">Your password does not match</div>
     </div>
   </div>
-
-
-
 
   <div class="form-group">
     <label for="birthYear">Birth year</label>
