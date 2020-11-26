@@ -20,5 +20,8 @@
       {{ user.money }}
     </span>
     </div>
+    <a class="nav-item nav-link" (click)="logout($event)" *ngIf="user">
+      <span class="fa fa-power-off"></span>
+    </a>
   </div>
 </nav>

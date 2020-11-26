@@ -20,24 +20,7 @@ export class UserService {
     const params = {login, password, birthYear};
     return this.http.post<UserModel>(this.apiUrl, params);
   }
-  /*
- *  Stocker l’utilisateur connecté
-    dans le LocalStorage du navigateur
-    dans le UserService et connecter
-    automatiquement l’utilisateur.
 
-    Commençons par créer une méthode
-    storeLoggedInUser(user)
-    La méthode doit aussi se charger de stocker
-    l’utilisateur passé en paramètre
-    dans le LocalStorage
-    qui offre la méthode setItem(key, value).
-    Utilisez comme clé rememberMe.
-    Méthode storeLoggedInUser(user)
-    en cas de connexion réussie
-    dans authenticate(),
-    grâce à l’opérateur tap.
-  * */
   storeLoggedInUser(user: UserModel): void {
     window.localStorage.setItem('rememberMe', JSON.stringify(user));
     this.userEvents.next(user);
@@ -45,23 +28,26 @@ export class UserService {
   authenticate(credentials: { login: string; password: string }): Observable<UserModel> {
     return this.http.post<UserModel>(this.apiUrlAuth, credentials)
       .pipe(tap(user => this.storeLoggedInUser(user)));
-   // .pipe(tap((user: UserModel) => this.userEvents.next(user)));
   }
-  /*
-  Utiliser le constructeur du
-  service UserService
-  une méthode retrieveUser()
-  lire dans le LocalStorage de la
-  valeur stockée
-  avec JSON.parse() l’envoyer aux
-  composants intéressés grâce à
-  l’observable userEvents.
-  */
+
   retrieveUser(): void {
     const value = window.localStorage.getItem('rememberMe');
     if (value) {
       const user = JSON.parse(value);
       this.userEvents.next(user);
     }
+  }
+  /*
+  * Lorsque l’utilisateur clique sur le lien,
+  * appelez la méthode logout à créer dans votre composant.
+  * Cette méthode appellera à son tour une méthode logout
+  * sur le service UserService, qui devra :
+  émettre null dans l’observable userEvents pour
+  * prévenir les composants de la déconnexion
+  supprimer la valeur stockée dans le LocalStorage
+  * */
+  logout(): void {
+    this.userEvents.next(null);
+    window.localStorage.removeItem('rememberMe');
   }
 }
