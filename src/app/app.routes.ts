@@ -4,18 +4,22 @@ import { RegisterComponent} from './register/register.component';
 import { RacesComponent } from './races/races.component';
 import { LoginComponent } from './login/login.component';
 import { BetComponent } from './bet/bet.component';
+import { LiveComponent } from './live/live.component';
 
 export const ROUTES: Routes = [
 
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  // { path: 'races', component: RacesComponent },
   {
     path: 'races',
     children: [
       { path: '', component: RacesComponent },
-      { path: ':raceId', component: BetComponent }
+      { path: ':raceId', component: BetComponent },
+      /*
+      URL est /races/:raceId/live. La nouvelle route doit être un nouvel enfant du chemin 'races'.
+      */
+      { path: ':raceId/live', component: LiveComponent }
     ]
   }
 ];

@@ -1,6 +1,8 @@
 <div *ngIf="raceModel">
 <h1>{{ raceModel.name }}</h1>
 <p>{{ raceModel.startInstant | fromNow }}</p>
+  <!-- Dans la page Bet, ajoutez un lien Watch live!, avec les paramètres nécessaires -->
+  <a [routerLink]="['/races', raceModel.id, 'live']">Watch live!</a>
 <ul>
   <li *ngFor="let pony of raceModel.ponies" [ngClass]="{ selected: isPonySelected(pony) }">
     <div class="col-12 col-md-2">{{ pony.name }}</div>
