@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { interval, Observable} from 'rxjs';
-import { RaceModel } from './models/race.model';
+import { Observable} from 'rxjs';
+import { LiveRaceModel, RaceModel} from './models/race.model';
 import { environment } from '../environments/environment';
 import { PonyWithPositionModel } from './models/pony.model';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import {WsService} from './ws.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class RaceService {
 
   private baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private wsService: WsService) { }
 
   list(): Observable<Array<RaceModel>> {
     const params = { status: 'PENDING' };
@@ -32,16 +33,19 @@ export class RaceService {
     return this.http.delete<RaceModel>(this.baseUrl + '/api/races/' + raceId + '/bets');
   }
 
-  /*
-  * méthode live au RaceService.
-  * Cette méthode reçoit l’identifiant de la course en argument,
-  * et retourne un Observable qui émet (plusieurs fois pendant la course)
-  * un tableau de PonyWithPositionModel.
-  *
-  * Ajoutez donc un opérateur map à la chaîne d’opérations,
-  * qui transforme l’entier en un tableau
-  * */
+  /* utiliser ce nouveau service WsService depuis RaceService.
+  Injectez WsService dans RaceService et modifiez le code de la méthode live
+  afin qu’il se connecte réellement au channel /race/${raceId}
+  pour obtenir les positions des poneys
 
+   l’opérateur map pour transformer la notification
+   reçue en un tableau de positions, dans la méthode live
+  */
+  live(raceId: number): Observable<Array<PonyWithPositionModel>> {
+    return this.wsService.connect<LiveRaceModel>('/race/' + raceId )
+      .pipe(map(liveRace => liveRace.ponies));
+  }
+  /*
   live(raceId: number): Observable<Array<PonyWithPositionModel>> {
     return interval(1000).pipe(
       take(101),
@@ -81,5 +85,5 @@ export class RaceService {
       })
     );
   }
-
+  */
 }
