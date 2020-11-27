@@ -10,15 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./bet.component.css']
 })
 export class BetComponent implements OnInit {
-  /*
-  nous allons utiliser l’événement
-  custom ponyClicked.
-  En effet, vous allez appeler
-  la méthode betOnPony(pony)
-  à chaque fois que cet événement
-  sera émis par un composant
-  PonyComponent.
-  */
+
   raceModel: RaceModel;
   betFailed = false;
 
@@ -28,26 +20,24 @@ export class BetComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('raceId');
     this.raceService.get(id).subscribe(race => (this.raceModel = race));
   }
-  /*
-  La méthode betOnPony(pony) est bien
-  évidemment à créer dans le composant.
-  Elle devra appeler la méthode
-  bet de notre RaceService
-   */
+
   betOnPony(pony: PonyModel): void {
-    this.raceService.bet(this.raceModel.id, pony.id).subscribe({
-      next: race => (this.raceModel = race),
-      error: () => (this.betFailed = true)
-    });
+    if (!this.isPonySelected(pony)) {
+      this.raceService.bet(this.raceModel.id, pony.id).subscribe(
+        race => this.raceModel = race, error => this.betFailed = true);
+    } else {
+      this.raceService.cancelBet(this.raceModel.id).subscribe({
+        next: () => this.raceModel.betPonyId = null,
+        error: () => this.betFailed = true});
+    }
   }
 
-  /*
-  Créez donc une méthode isPonySelected(pony)
-  qui renverra vrai si le poney en paramètre a le même id
-  que celui défini dans l’attribut betPonyId de la course.
-  */
-  isPonySelected(pony: PonyModel): boolean {
-    return pony.id === this.raceModel.betPonyId;
+  isPonySelected(pony: PonyModel): boolean{
+    if (pony.id === this.raceModel.betPonyId){
+      return true;
+    }else{
+      return false;
+    }
   }
 
 }
