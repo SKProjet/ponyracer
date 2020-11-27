@@ -10,15 +10,23 @@ import { environment } from '../environments/environment';
 })
 export class RaceService {
 
-  // suite à la modif de l'environnement.ts changement pour baseURL
-  // private apiUrl = environment.apiUrl + 'races';
-  private baseUrl = environment.baseUrl + 'api/races';
+  private baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
   list(): Observable<Array<RaceModel>> {
     const params = { status: 'PENDING' };
-    return this.http.get<Array<RaceModel>>(this.baseUrl, { params });
+    return this.http.get<Array<RaceModel>>(this.baseUrl + '/api/races', { params });
+  }
+  /* https://ponyracer.ninja-squad.com/apidoc#resources-bet-create
+  méthode bet(raceId: number, ponyId: number) dans le service RaceService
+   */
+  bet(raceId: number, ponyId: number): Observable<RaceModel> {
+    return this.http.post<RaceModel>(this.baseUrl  + '/api/races/' + raceId + '/bets', {ponyId} );
+  }
+  /* Créez aussi une méthode get(id: number) qui permet de récupérer une course par son id */
+  get(id: number): Observable<RaceModel> {
+    return this.http.get<RaceModel>(this.baseUrl  + '/api/races/' + id);
   }
 
 }

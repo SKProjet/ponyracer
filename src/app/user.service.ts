@@ -10,12 +10,8 @@ import { JwtInterceptor } from './jwt.interceptor';
   providedIn: 'root'
 })
 export class UserService {
-  // Importez la constante environment du fichier environment.ts
-  // dans user.service.ts, et modifiez les URLs en dur pour
-  // utiliser la valeur environment.baseUrl.
 
   private baseUrl = environment.baseUrl + 'api/users';
-  // private apiUrl = environment.apiUrl + 'users';
   private apiUrlAuth = environment.baseUrl + 'api/users/authentication';
   userEvents = new BehaviorSubject<UserModel>(undefined);
 
@@ -24,7 +20,6 @@ export class UserService {
   register(login: string, password: string, birthYear: number): Observable<UserModel> {
     const params = {login, password, birthYear};
     return this.http.post<UserModel>(this.baseUrl, params);
-    // return this.http.post<UserModel>(`${environment.baseUrl}/api/users`, params);
   }
 
   storeLoggedInUser(user: UserModel): void {

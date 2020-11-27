@@ -1,0 +1,9 @@
+/*
+  Utilisez ensuite cette méthode pour ajouter dynamiquement
+  une classe CSS selected à la div entourant le poney.
+*/
+
+.selected {
+  border: 3px solid green;
+  border-radius: 10px;
+}
