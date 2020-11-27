@@ -33,7 +33,7 @@ export class RaceService {
   }
 
   live(raceId: number): Observable<Array<PonyWithPositionModel>> {
-    return interval(1000).pipe(
+    return interval(200).pipe(
       take(101),
       map(position => {
         return [
