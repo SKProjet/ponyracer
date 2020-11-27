@@ -32,8 +32,18 @@ export class RaceService {
     return this.http.delete<RaceModel>(this.baseUrl + '/api/races/' + raceId + '/bets');
   }
 
+  /*
+  * méthode live au RaceService.
+  * Cette méthode reçoit l’identifiant de la course en argument,
+  * et retourne un Observable qui émet (plusieurs fois pendant la course)
+  * un tableau de PonyWithPositionModel.
+  *
+  * Ajoutez donc un opérateur map à la chaîne d’opérations,
+  * qui transforme l’entier en un tableau
+  * */
+
   live(raceId: number): Observable<Array<PonyWithPositionModel>> {
-    return interval(200).pipe(
+    return interval(1000).pipe(
       take(101),
       map(position => {
         return [

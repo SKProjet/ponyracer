@@ -17,6 +17,16 @@ export class LiveComponent implements OnInit, OnDestroy {
 
   constructor(private raceService: RaceService, private route: ActivatedRoute) {}
 
+  /*
+  * souscrivez à l’observable retourné par le service depuis la méthode ngOnInit.
+  * Chaque fois qu’un événement est émis, stockez les positions reçues dans
+  * une propriété nommée poniesWithPosition de type Array<PonyWithPositionModel>.
+  * Pensez à aussi stocker la souscription elle-même dans une propriété
+  * positionSubscription, et à vous désabonner (unsubscribe)
+  * depuis la méthode ngOnDestroy.
+  * */
+
+
   ngOnInit(): void {
     const id = +this.route.snapshot.paramMap.get('raceId');
     this.raceService.get(id).subscribe(race => (this.raceModel = race));
