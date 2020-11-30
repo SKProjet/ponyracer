@@ -1,9 +1,25 @@
-<h2 *ngFor="let race of races | slice : 0 : 4">
-    <pr-race [raceModel]="race"></pr-race>
-    <a [routerLink]="['/races', race.id]" class="btn btn-primary mb-2">
-      Bet on {{ race.name }}
-    </a>
-</h2>
+<!--
+Le composant races doit afficher deux onglets
+(voir la documentation de Bootstrap pour savoir comment créer des onglets),
+et doit utiliser la directive router-outlet pour afficher
+le contenu associé à l’onglet actif.
+
+https://getbootstrap.com/docs/4.3/components/navs/#tabs
+-->
+
+<ul class="nav nav-tabs">
+
+  <li class="nav-item">
+    <a class="nav-link" routerLinkActive="active" routerLink="pending">Pending</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLinkActive="active" routerLink="finished">Finished</a>
+  </li>
+
+</ul>
+
+
+<router-outlet></router-outlet>
 
 
 

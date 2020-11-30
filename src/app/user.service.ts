@@ -54,10 +54,6 @@ export class UserService {
   scoreUpdates(userId: number): Observable<UserModel> {
     return this.wsService.connect<UserModel>( '/player/' + userId);
   }
-  /* ajoutez une méthode isLoggedIn() au service user,
-  et vérifiez si la clé rememberMe
-  est présente ou pas dans le local storage pour déterminer
-  si l’utilisateur est authentifié ou pas. => boolean */
 
   isLoggedIn(): boolean {
     return !!window.localStorage.getItem('rememberMe');

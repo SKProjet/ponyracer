@@ -4,7 +4,7 @@ import {EMPTY, interval, Subject, Subscription} from 'rxjs';
 import { RaceService } from '../race.service';
 import { RaceModel } from '../models/race.model';
 import { PonyWithPositionModel } from '../models/pony.model';
-import {bufferToggle, catchError, filter, groupBy, map, mergeMap, switchMap, tap, throttleTime} from 'rxjs/operators';
+import {bufferToggle, catchError, filter, groupBy, map, mergeMap, switchMap, throttleTime} from 'rxjs/operators';
 
 @Component({
   selector: 'pr-live',
@@ -16,13 +16,14 @@ export class LiveComponent implements OnInit, OnDestroy {
   poniesWithPosition: Array<PonyWithPositionModel> = [];
   positionSubscription: Subscription;
   error: boolean;
-  winners: Array<PonyWithPositionModel>;
+  winners: Array<PonyWithPositionModel> = [];
   betWon: boolean;
   clickSubject = new Subject<PonyWithPositionModel>();
 
   constructor(private raceService: RaceService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    /*
     const id = +this.route.snapshot.paramMap.get('raceId');
     this.positionSubscription = this.raceService
       .get(id)
@@ -31,11 +32,20 @@ export class LiveComponent implements OnInit, OnDestroy {
         filter(race => this.raceModel.status !== 'FINISHED'),
         switchMap(race => this.raceService.live(race.id))
       )
-      .subscribe({
-        next: positions => {
-          this.poniesWithPosition = positions;
-          this.raceModel.status = 'RUNNING';
-        },
+
+      => Vous pouvez donc aussi simplifier le code d’initialisation,
+      en ne souscrivant au live de la course que si elle n’est pas
+      déjà terminée, en utilisant un simple if
+    * */
+
+    this.raceModel = this.route.snapshot.data.race;
+    if (this.raceModel.status !== 'FINISHED') {
+      this.positionSubscription = this.raceService.live(this.raceModel.id)
+        .subscribe({
+          next: positions => {
+            this.poniesWithPosition = positions;
+            this.raceModel.status = 'RUNNING';
+          },
         error: () => (this.error = true),
         complete: () => {
           this.raceModel.status = 'FINISHED';
@@ -43,17 +53,16 @@ export class LiveComponent implements OnInit, OnDestroy {
           this.betWon = this.winners.some(pony => pony.id === this.raceModel.betPonyId);
         }
       });
-
-    /***/
+    }
 
     this.clickSubject.pipe(groupBy(pony => pony.id, pony => pony.id),
-        mergeMap(obs => obs.pipe(bufferToggle(obs, () => interval(1000)))),
-        filter(array => array.length >= 5), throttleTime(1000),
-        map(array => array[0]),
+      mergeMap(obs => obs.pipe(bufferToggle(obs, () => interval(1000)))),
+      filter(array => array.length >= 5), throttleTime(1000),
+      map(array => array[0]),
       switchMap(ponyId => this.raceService.boost(this.raceModel.id, ponyId).pipe(catchError(() => EMPTY)))
-      ).subscribe(() => {});
-
+    ).subscribe(() => {});
   }
+
 
   ngOnDestroy(): void {
     if (this.positionSubscription) {
@@ -61,22 +70,11 @@ export class LiveComponent implements OnInit, OnDestroy {
         .unsubscribe();
     }
 }
-  /*
-  * événements ponyClicked émis par les composants PonyComponent.
-  * Ajoutez une méthode onClick sur le LiveComponent.
-  * Cette méthode doit recevoir le poney sur lequel on a cliqué,
-  * et doit être appelée lorsqu’un événement ponyClicked
-  * est émis par l’un des poneys de la course.
-  * */
+
   onClick(pony: PonyWithPositionModel): void {
     this.clickSubject.next(pony);
   }
-  /*
-  * une méthode ponyById dans notre composant LiveComponent.
-  * Cette méthode doit recevoir l’index de l’élément et l’élément lui-même
-  * (ici, un PonyWithPositionModel), et doit retourner une valeur qui
-  * identifie l’élément : l’ID du poney.
-  * */
+
   ponyById(index: number, pony: PonyWithPositionModel): number {
     return pony.id;
   }

@@ -14,11 +14,11 @@ export class RaceService {
 
   private baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient, private wsService: WsService) {
-  }
+  constructor(private http: HttpClient, private wsService: WsService) {}
 
-  list(): Observable<Array<RaceModel>> {
-    const params = {status: 'PENDING'};
+  // changez la signature du service RaceService.list() en RaceService.list(status: 'PENDING' | 'RUNNING' | 'FINISHED').
+  list(status: 'PENDING' | 'RUNNING' | 'FINISHED'): Observable<Array<RaceModel>> {
+    const params = { status };
     return this.http.get<Array<RaceModel>>(this.baseUrl + '/api/races', {params});
   }
 

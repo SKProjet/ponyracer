@@ -1,0 +1,8 @@
+<p>finished-races</p>
+<!--
+Le composant finished-races doit afficher les courses terminées, de la même manière
+que pending-races, mais sans créer de lien permettant de parier dessus (puisqu’elles sont terminées).
+-->
+<h2 *ngFor="let race of races">
+  <pr-race [raceModel]="race"></pr-race>
+</h2>
