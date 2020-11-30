@@ -51,13 +51,15 @@ export class UserService {
     this.jwtInterceptor.removeJwtToken();
   }
 
-  /*
-  * WebSocket /player/{myUserId}. Créez une méthode scoreUpdates dans le UserService,
-  * qui prend un userId en argument,
-  * utilise le WsService pour se connecter au canal de communication, et retourne l’observable créé
-  * */
   scoreUpdates(userId: number): Observable<UserModel> {
     return this.wsService.connect<UserModel>( '/player/' + userId);
   }
+  /* ajoutez une méthode isLoggedIn() au service user,
+  et vérifiez si la clé rememberMe
+  est présente ou pas dans le local storage pour déterminer
+  si l’utilisateur est authentifié ou pas. => boolean */
 
+  isLoggedIn(): boolean {
+    return !!window.localStorage.getItem('rememberMe');
+  }
 }

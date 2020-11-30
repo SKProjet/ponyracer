@@ -5,20 +5,17 @@ import { RacesComponent } from './races/races.component';
 import { LoginComponent } from './login/login.component';
 import { BetComponent } from './bet/bet.component';
 import { LiveComponent } from './live/live.component';
+import { LoggedInGuard } from './logged-in.guard';
 
 export const ROUTES: Routes = [
 
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  {
-    path: 'races',
+  { path: 'races', canActivate: [LoggedInGuard], // Deviens_un_Ninja_avec_Angular.pdf #_guards
     children: [
       { path: '', component: RacesComponent },
       { path: ':raceId', component: BetComponent },
-      /*
-      URL est /races/:raceId/live. La nouvelle route doit être un nouvel enfant du chemin 'races'.
-      */
       { path: ':raceId/live', component: LiveComponent }
     ]
   }
