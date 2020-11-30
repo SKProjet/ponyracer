@@ -11,15 +11,6 @@ import {RaceService} from './race.service';
 @Injectable({
   providedIn: 'root'
 })
-
-/*
-* Ce service doit implémenter l’interface Resolve<Array<RaceModel>> et sa méthode resolve,
-* en utilisant la propriété routeConfig.path de la route activée ('pending' ou 'finished'),
-* afin de charger les courses ayant l’état correspondant ('PENDING' ou 'FINISHED').
-*
-* Deviens_un_Ninja_avec_Angular.pdf #_resolvers
-* */
-
 export class RacesResolver implements Resolve<Array<RaceModel>> {
   constructor(private raceService: RaceService) {}
 

@@ -23,21 +23,6 @@ export class LiveComponent implements OnInit, OnDestroy {
   constructor(private raceService: RaceService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    /*
-    const id = +this.route.snapshot.paramMap.get('raceId');
-    this.positionSubscription = this.raceService
-      .get(id)
-      .pipe(
-        tap((race: RaceModel) => (this.raceModel = race)),
-        filter(race => this.raceModel.status !== 'FINISHED'),
-        switchMap(race => this.raceService.live(race.id))
-      )
-
-      => Vous pouvez donc aussi simplifier le code d’initialisation,
-      en ne souscrivant au live de la course que si elle n’est pas
-      déjà terminée, en utilisant un simple if
-    * */
-
     this.raceModel = this.route.snapshot.data.race;
     if (this.raceModel.status !== 'FINISHED') {
       this.positionSubscription = this.raceService.live(this.raceModel.id)
