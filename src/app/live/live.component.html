@@ -40,7 +40,6 @@
           <span class="fa fa-flag" style="font-size: x-large;"></span>
         </div>
         <div style="width: 95%; border-right: 3px dotted lightgray;">
-          <!-- dire à NgFor de l’utiliser pour tracker les éléments du tableau, en utilisant trackBy. -->
           <div *ngFor="let pony of poniesWithPosition; trackBy: ponyById" class="pony-wrapper"
                [class.selected]="pony.id === raceModel.betPonyId"
                [style.marginLeft.%]="pony.position - 5" style="transition: all linear 1s">

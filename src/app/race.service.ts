@@ -41,12 +41,6 @@ export class RaceService {
       );
   }
 
-  /*
-  * https://ponyracer.ninja-squad.com/apidoc#resources-boost
-  * Ajoutons maintenant une méthode boost au RaceService.
-  * Cette méthode reçoit un raceId et un ponyId en arguments
-  * */
-
   boost(raceId: number, ponyId: number): Observable<void> {
     // @ts-ignore
     return this.http.post<void>(this.baseUrl + '/api/races/' + raceId + '/boosts' , {ponyId});

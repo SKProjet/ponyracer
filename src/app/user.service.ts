@@ -5,17 +5,20 @@ import { UserModel } from './models/user.model';
 import { environment } from '../environments/environment';
 import {tap} from 'rxjs/operators';
 import { JwtInterceptor } from './jwt.interceptor';
+import { WsService } from './ws.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private baseUrl = environment.baseUrl + 'api/users';
-  private apiUrlAuth = environment.baseUrl + 'api/users/authentication';
+  private baseUrl = environment.baseUrl + '/api/users';
+  private apiUrlAuth = environment.baseUrl + '/api/users/authentication';
   userEvents = new BehaviorSubject<UserModel>(undefined);
 
-  constructor(private http: HttpClient, private jwtInterceptor: JwtInterceptor) { this.retrieveUser(); }
+  constructor(private http: HttpClient, private jwtInterceptor: JwtInterceptor, private wsService: WsService) {
+    this.retrieveUser();
+  }
 
   register(login: string, password: string, birthYear: number): Observable<UserModel> {
     const params = {login, password, birthYear};
@@ -47,4 +50,14 @@ export class UserService {
     window.localStorage.removeItem('rememberMe');
     this.jwtInterceptor.removeJwtToken();
   }
+
+  /*
+  * WebSocket /player/{myUserId}. Créez une méthode scoreUpdates dans le UserService,
+  * qui prend un userId en argument,
+  * utilise le WsService pour se connecter au canal de communication, et retourne l’observable créé
+  * */
+  scoreUpdates(userId: number): Observable<UserModel> {
+    return this.wsService.connect<UserModel>( '/player/' + userId);
+  }
+
 }

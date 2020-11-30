@@ -18,11 +18,6 @@ export class LiveComponent implements OnInit, OnDestroy {
   error: boolean;
   winners: Array<PonyWithPositionModel>;
   betWon: boolean;
-  /*
-  * Ajoutez une propriété clickSubject au LiveComponent, de type Subject<PonyWithPositionModel>,
-  * et initialisez cette propriété. La méthode onClick doit simplement
-  * faire émettre le poney reçu en argument par le clickSubject.
-  * */
   clickSubject = new Subject<PonyWithPositionModel>();
 
   constructor(private raceService: RaceService, private route: ActivatedRoute) {}
