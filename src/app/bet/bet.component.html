@@ -11,7 +11,8 @@
 </ul>
 </div>
 
-<div *ngIf="betFailed" class="alert alert-danger">
-    The race is already started or finished
-</div>
+<pr-alert *ngIf="betFailed" type="danger" (closed)="betFailed = false"> The race is already started or finished</pr-alert>
 
+<!--
+<div *ngIf="betFailed" class="alert alert-danger">The race is already started or finished</div>
+-->

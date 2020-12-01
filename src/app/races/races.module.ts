@@ -10,9 +10,14 @@ import { RaceComponent } from '../race/race.component';
 import { RacesComponent } from './races.component';
 import { RouterModule } from '@angular/router';
 import { RACES_ROUTES } from './races.routes';
+import {SharedModule} from '../shared/shared/shared.module';
+
+/*
+* * Pour cela, il faut ajouter AlertComponent à l’attribut exports du décorateur
+* du SharedModule, et importer le SharedModule dans RacesModule.
+* */
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(RACES_ROUTES)],
   declarations: [
     RacesComponent,
     RaceComponent,
@@ -22,6 +27,12 @@ import { RACES_ROUTES } from './races.routes';
     LiveComponent,
     PendingRacesComponent,
     FinishedRacesComponent
+  ],
+
+  imports: [
+    CommonModule,
+    RouterModule.forChild(RACES_ROUTES),
+    SharedModule
   ]
 })
 export class RacesModule {}
