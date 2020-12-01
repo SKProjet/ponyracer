@@ -1,15 +1,26 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {EMPTY, interval, Subject, Subscription} from 'rxjs';
 import { RaceService } from '../race.service';
 import { RaceModel } from '../models/race.model';
 import { PonyWithPositionModel } from '../models/pony.model';
-import {bufferToggle, catchError, filter, groupBy, map, mergeMap, switchMap, throttleTime} from 'rxjs/operators';
+import {
+  bufferToggle,
+  catchError,
+  filter,
+  finalize,
+  groupBy,
+  map,
+  mergeMap,
+  switchMap,
+  throttleTime
+} from 'rxjs/operators';
 
 @Component({
   selector: 'pr-live',
   templateUrl: './live.component.html',
-  styleUrls: ['./live.component.css']
+  styleUrls: ['./live.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LiveComponent implements OnInit, OnDestroy {
   raceModel: RaceModel;
@@ -20,16 +31,18 @@ export class LiveComponent implements OnInit, OnDestroy {
   betWon: boolean;
   clickSubject = new Subject<PonyWithPositionModel>();
 
-  constructor(private raceService: RaceService, private route: ActivatedRoute) {}
+  constructor(private ref: ChangeDetectorRef, private raceService: RaceService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.raceModel = this.route.snapshot.data.race;
     if (this.raceModel.status !== 'FINISHED') {
       this.positionSubscription = this.raceService.live(this.raceModel.id)
+        .pipe(finalize(() => this.ref.markForCheck()))
         .subscribe({
           next: positions => {
             this.poniesWithPosition = positions;
             this.raceModel.status = 'RUNNING';
+            this.ref.markForCheck();
           },
         error: () => (this.error = true),
         complete: () => {
