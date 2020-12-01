@@ -3,10 +3,3 @@
   <pr-race [raceModel]="race"></pr-race>
 </h2>
 <ngb-pagination [collectionSize]="races.length" [(page)]="page" size="lg"></ngb-pagination>
-
-<!--
-Et la page courante, c’est la valeur de la propriété page,
-qui est mise à jour automatiquement par le composant de pagination lorsqu’on l’utilise pour naviguer.
-Utilisez donc cette propriété page pour n’itérer que sur une tranche (slice) du tableau.
-Par exemple, si page vaut 2, il ne faut afficher que les indices entre 10 et 20 du tableau.
--->

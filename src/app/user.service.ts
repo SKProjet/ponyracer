@@ -6,6 +6,7 @@ import { environment } from '../environments/environment';
 import {tap} from 'rxjs/operators';
 import { JwtInterceptor } from './jwt.interceptor';
 import { WsService } from './ws.service';
+import { MoneyHistoryModel } from './models/money-history.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class UserService {
 
   private baseUrl = environment.baseUrl + '/api/users';
   private apiUrlAuth = environment.baseUrl + '/api/users/authentication';
+  private urlChart = environment.baseUrl + '/api/money/history';
   userEvents = new BehaviorSubject<UserModel>(undefined);
 
   constructor(private http: HttpClient, private jwtInterceptor: JwtInterceptor, private wsService: WsService) {
@@ -58,4 +60,9 @@ export class UserService {
   isLoggedIn(): boolean {
     return !!window.localStorage.getItem('rememberMe');
   }
+  /* Ajoutons une méthode getMoneyHistory() à notre UserService */
+  getMoneyHistory(): Observable<Array<MoneyHistoryModel>> {
+    return this.http.get<Array<MoneyHistoryModel>>(this.urlChart);
+  }
+
 }

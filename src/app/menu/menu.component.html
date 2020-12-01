@@ -1,7 +1,3 @@
-<!--
- ajouter une dernière touche à l’application en remplaçant class.collapse par ngbCollapse dans menu.component.html.
--->
-
 <nav class="navbar navbar-expand-md navbar-light bg-light">
   <a class="navbar-brand" [routerLink]="['/']">PonyRacer</a>
   <button type="button" class="navbar-toggler" (click)="toggleNavbar()">
@@ -14,10 +10,10 @@
       </li>
     </ul>
     <div *ngIf="user">
-    <span class="nav-item navbar-text mr-2">
+    <a class="nav-item nav-link mr-2" *ngIf="user" [routerLink]="['/users/money/history']">
       {{ user.login }}<span class="fa fa-star"></span>
       {{ user.money }}
-    </span>
+    </a>
     </div>
     <a class="nav-item nav-link" (click)="logout($event)" *ngIf="user">
       <span class="fa fa-power-off"></span>

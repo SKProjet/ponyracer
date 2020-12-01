@@ -6,14 +6,6 @@ import {FormLabelValidationDirective} from '../form-label-validation.directive';
 import {FormLabelDirective} from '../form-label.directive';
 import {NgbAlertModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
-/*
- Ajouter NgbAlertModule aux imports du module SharedModule.
- Ajoutez NgbAlertModule aux exports du SharedModule,
- pour rendre ce composant ng-bootstrap disponible dans
- tous les modules de l’application
- (UsersModule et RacesModule importent tous les deux SharedModule)
-*/
-
 @NgModule({
   declarations: [
     AlertComponent,

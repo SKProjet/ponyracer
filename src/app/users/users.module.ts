@@ -6,11 +6,13 @@ import { USERS_ROUTES } from './users.routes';
 import { RegisterComponent } from '../register/register.component';
 import { LoginComponent } from '../login/login.component';
 import {SharedModule} from '../shared/shared/shared.module';
+import { MoneyHistoryComponent } from './money-history/money-history.component';
 
 @NgModule({
   declarations: [
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    MoneyHistoryComponent
   ],
 
   imports: [
