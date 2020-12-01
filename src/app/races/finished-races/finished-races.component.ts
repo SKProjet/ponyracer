@@ -8,7 +8,12 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class FinishedRacesComponent implements OnInit {
 
-  races: Array<RaceModel> = [];
+  /* Ajoutez un composant pagination en haut du template.
+  Utilisez pour ça une nouvelle propriété page,
+  initialisée à 1 pour afficher la première page. */
+  races: Array<RaceModel>;
+  page = 1;
+
   constructor(route: ActivatedRoute) {
     this.races = route.snapshot.data.races;
   }

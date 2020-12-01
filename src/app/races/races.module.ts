@@ -11,11 +11,7 @@ import { RacesComponent } from './races.component';
 import { RouterModule } from '@angular/router';
 import { RACES_ROUTES } from './races.routes';
 import {SharedModule} from '../shared/shared/shared.module';
-
-/*
-* * Pour cela, il faut ajouter AlertComponent à l’attribut exports du décorateur
-* du SharedModule, et importer le SharedModule dans RacesModule.
-* */
+import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -32,7 +28,8 @@ import {SharedModule} from '../shared/shared/shared.module';
   imports: [
     CommonModule,
     RouterModule.forChild(RACES_ROUTES),
-    SharedModule
+    SharedModule,
+    NgbPaginationModule
   ]
 })
 export class RacesModule {}

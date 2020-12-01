@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { NgbAlert, NgbAlertConfig, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { formatDistanceToNowStrict, parseISO } from 'date-fns';
 
@@ -11,22 +12,24 @@ import { BetComponent } from './bet.component';
 import { PonyComponent } from '../pony/pony.component';
 import { RaceModel } from '../models/race.model';
 import { PonyModel } from '../models/pony.model';
-import { AlertComponent } from '../shared/alert/alert.component';
 
 describe('BetComponent', () => {
   const fakeRaceService = jasmine.createSpyObj<RaceService>('RaceService', ['bet', 'cancelBet']);
   const race = { id: 1, name: 'Paris', startInstant: '2020-02-18T08:02:00Z' } as RaceModel;
   const fakeActivatedRoute = { snapshot: { data: { race } } };
 
-  beforeEach(() =>
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RacesModule, RouterTestingModule],
+      imports: [RacesModule, RouterTestingModule, NgbAlertModule],
       providers: [
         { provide: RaceService, useValue: fakeRaceService },
         { provide: ActivatedRoute, useValue: fakeActivatedRoute }
       ]
-    })
-  );
+    });
+    // turn off the animation for the alert
+    const alertConfig = TestBed.inject(NgbAlertConfig);
+    alertConfig.animation = false;
+  });
 
   it('should display a race name, its date and its ponies', () => {
     const fixture = TestBed.createComponent(BetComponent);
@@ -155,16 +158,17 @@ describe('BetComponent', () => {
     fixture.detectChanges();
 
     const debugElement = fixture.debugElement;
-    const message = debugElement.query(By.directive(AlertComponent));
-    expect(message).withContext('You should have an AlertComponent if the bet failed').not.toBeNull();
+    const message = debugElement.query(By.directive(NgbAlert));
+    expect(message).withContext('You should have an NgbAlert if the bet failed').not.toBeNull();
     expect(message.nativeElement.textContent).toContain('The race is already started or finished');
-    expect(message.componentInstance.type).withContext('The alert should be a danger one').toBe('danger');
+    const alertComponent = message.componentInstance as NgbAlert;
+    expect(alertComponent.type).withContext('The alert should be a danger one').toBe('danger');
 
     // close the alert
-    message.componentInstance.closeHandler();
+    alertComponent.close().subscribe();
     fixture.detectChanges();
-    expect(debugElement.query(By.directive(AlertComponent)))
-      .withContext('The AlertComponent should be closable')
+    expect(debugElement.query(By.directive(NgbAlert)))
+      .withContext('The NgbAlert should be closable')
       .toBeNull();
   });
 

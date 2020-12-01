@@ -2,27 +2,30 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { NgbAlert, NgbAlertConfig, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 
 import { UsersModule } from '../users/users.module';
 import { RegisterComponent } from './register.component';
 import { UserService } from '../user.service';
 import { UserModel } from '../models/user.model';
-import { AlertComponent } from '../shared/alert/alert.component';
 
 describe('RegisterComponent', () => {
   const fakeUserService = jasmine.createSpyObj<UserService>('UserService', ['register']);
   const fakeRouter = jasmine.createSpyObj<Router>('Router', ['navigate']);
 
-  beforeEach(() =>
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [UsersModule],
+      imports: [UsersModule, NgbAlertModule],
       providers: [
         { provide: UserService, useValue: fakeUserService },
         { provide: Router, useValue: fakeRouter }
       ]
-    })
-  );
+    });
+    // turn off the animation for the alert
+    const alertConfig = TestBed.inject(NgbAlertConfig);
+    alertConfig.animation = false;
+  });
 
   beforeEach(() => {
     fakeUserService.register.calls.reset();
@@ -350,9 +353,17 @@ describe('RegisterComponent', () => {
       .withContext('You should set a field `registrationFailed` to `true` if the registration fails')
       .toBe(true);
     // and display the error message
-    const errorMessage = fixture.debugElement.query(By.directive(AlertComponent));
-    expect(errorMessage).withContext('You should display an error message in an AlertComponent if the registration fails').not.toBeNull();
+    const errorMessage = fixture.debugElement.query(By.directive(NgbAlert));
+    expect(errorMessage).withContext('You should display an error message in an NgbAlert if the registration fails').not.toBeNull();
     expect(errorMessage.nativeElement.textContent).toContain('Try again with another login.');
-    expect(errorMessage.componentInstance.type).withContext('The alert should be a danger one').toBe('danger');
+    const alertComponent = errorMessage.componentInstance as NgbAlert;
+    expect(alertComponent.type).withContext('The alert should be a danger one').toBe('danger');
+
+    // close the alert
+    alertComponent.close().subscribe();
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.directive(NgbAlert)))
+      .withContext('The alert should disappear when closed')
+      .toBeNull();
   });
 });

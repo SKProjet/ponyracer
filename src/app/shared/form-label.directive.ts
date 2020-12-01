@@ -1,8 +1,5 @@
 import {Directive, HostBinding} from '@angular/core';
 
-/*
-Utilisons donc un sélecteur un peu plus fin : label[prFormLabel]
-*/
 @Directive({
   selector: 'label[prFormLabel]'
 })

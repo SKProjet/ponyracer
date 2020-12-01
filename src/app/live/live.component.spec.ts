@@ -2,6 +2,7 @@ import { discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/te
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { NgbAlert, NgbAlertConfig, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, of, EMPTY } from 'rxjs';
 
 import { RacesModule } from '../races/races.module';
@@ -10,17 +11,19 @@ import { RaceService } from '../race.service';
 import { PonyWithPositionModel } from '../models/pony.model';
 import { RaceModel } from '../models/race.model';
 import { PonyComponent } from '../pony/pony.component';
-import { AlertComponent } from '../shared/alert/alert.component';
 
 describe('LiveComponent', () => {
   const fakeRaceService = jasmine.createSpyObj<RaceService>('RaceService', ['live', 'boost']);
 
-  beforeEach(() =>
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RacesModule, RouterTestingModule],
+      imports: [RacesModule, RouterTestingModule, NgbAlertModule],
       providers: [{ provide: RaceService, useValue: fakeRaceService }]
-    })
-  );
+    });
+    // turn off the animation for the alert
+    const alertConfig = TestBed.inject(NgbAlertConfig);
+    alertConfig.animation = false;
+  });
 
   beforeEach(() => {
     fakeRaceService.live.calls.reset();
@@ -329,16 +332,16 @@ describe('LiveComponent', () => {
     const sunnySunday = ponyComponents[0];
     expect(sunnySunday.componentInstance.isRunning).withContext('The ponies should be not running').toBeFalsy();
 
-    const success = fixture.debugElement.query(By.directive(AlertComponent));
-    expect(success).withContext('You should have a success AlertComponent to display the bet won').not.toBeNull();
+    const success = fixture.debugElement.query(By.directive(NgbAlert));
+    expect(success).withContext('You should have a success NgbAlert to display the bet won').not.toBeNull();
     expect(success.nativeElement.textContent).toContain('You won your bet!');
     expect(success.componentInstance.type).withContext('The alert should be a success one').toBe('success');
 
     // lost the bet...
     fixture.componentInstance.betWon = false;
     fixture.detectChanges();
-    const betFailed = fixture.debugElement.query(By.directive(AlertComponent));
-    expect(betFailed).withContext('You should have a warning AlertComponent to display the bet failed').not.toBeNull();
+    const betFailed = fixture.debugElement.query(By.directive(NgbAlert));
+    expect(betFailed).withContext('You should have a warning NgbAlert to display the bet failed').not.toBeNull();
     expect(betFailed.nativeElement.textContent).toContain('You lost your bet.');
     expect(betFailed.componentInstance.type).withContext('The alert should be a warning one').toBe('warning');
 
@@ -350,16 +353,17 @@ describe('LiveComponent', () => {
     // an error occurred
     fixture.componentInstance.error = true;
     fixture.detectChanges();
-    const alert = debugElement.query(By.directive(AlertComponent));
-    expect(alert).withContext('You should have an AlertComponent to display the error').not.toBeNull();
+    const alert = debugElement.query(By.directive(NgbAlert));
+    expect(alert).withContext('You should have an NgbAlert to display the error').not.toBeNull();
     expect(alert.nativeElement.textContent).toContain('A problem occurred during the live.');
-    expect(alert.componentInstance.type).withContext('The alert should be a danger one').toBe('danger');
+    const alertComponent = alert.componentInstance as NgbAlert;
+    expect(alertComponent.type).withContext('The alert should be a danger one').toBe('danger');
 
     // close the alert
-    alert.componentInstance.closeHandler();
+    alertComponent.close().subscribe();
     fixture.detectChanges();
-    expect(debugElement.query(By.directive(AlertComponent)))
-      .withContext('The AlertComponent should not be closable')
+    expect(debugElement.query(By.directive(NgbAlert)))
+      .withContext('The NgbAlert should not be closable')
       .not.toBeNull();
   });
 
